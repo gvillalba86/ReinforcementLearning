@@ -14609,14 +14609,18 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <div style="background-color: #fcf2f2; border-color: #dfb5b4; border-left: 5px solid #dfb5b4; padding: 0.5em;">
-<strong>Nota inicial:</strong>
+<strong>Notas iniciales:</strong>
+<br><br>
 
 En el desarrollo de la práctica he realizado algún cambio sobre el esquema base del código propuesto. En concreto:
-* Para el preprocesado de las observaciones (escalado + escala de grises + staking de 4 frames) he utilizado wrappers de Gym sobre el entorno. De esta forma el entorno ya nos devuelve la observacion en el formado deseado y no tenemos que realizarla cada vez, siendo más robusto antes errores en el código.
-* En todos las clases de red neuronal que heredan de nn.Module he implementado en método forward() para que la red se pueda llamar como un objeto.
-* Los métodos que implementan epsilon-greedy en los agentes los he movido de la clase que implementa la red a la clase que implementa el agente, ya que realmente es una función del agente y no de la red.
-* En las entradas de las capas completamente conectadas de las redes he utilizado la función nn.Flatten() en lugar de hacer el .view() en los métodos forward() correspondientes.
-* He añadido writers para Tensorboard en los agentes para su monitorización en éste de forma más cómoda y en tiempo real.
+<ul>
+  <li>Para el preprocesado de las observaciones (escalado + escala de grises + staking de 4 frames) he utilizado wrappers de Gym sobre el entorno. De esta forma el entorno ya nos devuelve la observacion en el formado deseado y no tenemos que realizarla cada vez, siendo más robusto antes errores en el código.</li>
+  <li>En todos las clases de red neuronal que heredan de nn.Module he implementado en método forward() para que la red se pueda llamar como un objeto.</li>
+  <li>Los métodos que implementan epsilon-greedy en los agentes los he movido de la clase que implementa la red a la clase que implementa el agente, ya que realmente es una función del agente y no de la red.</li>
+  <li>En las entradas de las capas completamente conectadas de las redes he utilizado la función nn.Flatten() en lugar de hacer el .view() en los métodos forward() correspondientes.</li>
+  <li>He añadido writers para Tensorboard en los agentes para su monitorización en éste de forma más cómoda y en tiempo real.</li>
+</ul>
+
 </div>
 </div>
 </div>
@@ -16947,9 +16951,9 @@ class="
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <div style="background-color: #fcf2f2; border-color: #dfb5b4; border-left: 5px solid #dfb5b4; padding: 0.5em;">
 <strong>Solución:</strong>
-
+<br><br>
 Vemos como la evolución de la recompensa media aumenta en los primeros cientos de episodioas, y a partir de ese punto se queda más o menos estable entre los 200 y 250 puntos de recompensa acumulada. Evidentemente, al seguir una política epsilon-greedy, no todas las partidas son iguales, incluso bien avanzado el entrenamiento, ya que siempre tomaremos acciones aleatorias con una probabilidad no nula. Por lo tanto, no es extraño que haya valores anormalmente altos y anormalmente bajos de la recompensa de cada episodio de forma individual.
-
+<br><br>
 En la gráfica de épsilon vemos como la probabilidad de tomar acciones aleatorias disminuye a medida que avanza el entrenamiento, pero siempre mantenemos un mínimo del 1% de acciones aleatorias, para que pueda continuar el proceso de exploración. A partir del episodio 1000 aproximadamente llegamos a ese valor mínimo de épsilon.
 
 </div>
@@ -17288,13 +17292,13 @@ class="
 <div style="background-color: #fcf2f2; border-color: #dfb5b4; border-left: 5px solid #dfb5b4; padding: 0.5em;">
 <strong>Respuesta:</strong>
 <br><br>
-
 De la ejecución de 20 episodios podemos ver que en todas las ejecuciones de episodios siguiendo la política del agente entrenado obtenemos la misma recompensa final. Esto puede llamar la atención, pero tiene sentido si tenemos en cuenta dos hechos:
-* Los juegos de Atari tienen un comienzo determinista siempre en el mismo estado, 
-* Las acciones que vamos a tomar van a ser deterministas siempre, y el estado nos va a determinar la acción a realizar. En entrenamiento, tomamos una política epsilon-greedy con epsilon>0 como compromiso entre exploración y explotación, pero en este caso, al estar en modo explotación, vamos a fijar epsilon a 0, por lo que la acción a tomar será determinista. 
-
+<ul>
+  <li>Los juegos de Atari tienen un comienzo determinista siempre en el mismo estado.</li>
+  <li>Las acciones que vamos a tomar van a ser deterministas siempre, y el estado nos va a determinar la acción a realizar. En entrenamiento, tomamos una política epsilon-greedy con epsilon>0 como compromiso entre exploración y explotación, pero en este caso, al estar en modo explotación, vamos a fijar epsilon a 0, por lo que la acción a tomar será determinista. </li>
+</ul>
 Por lo tanto, siempre tomaremos las mismas decisiones, y partiendo del mismo estado, llegaremos al mismo resultado, obteniendo siempre el mismo reward, como puede observarse en la gráfica.
-
+<br><br>
 Por otro lado, en el gif vemos como nuestro agente entrenado ha tenido un comportamiento algo mejor que la referencia que se nos da, pero aun con todo es bastante pobre, ya que se limita a moverse a la derecha y disparar. La puntuación que se obtiene también es por lo tanto muy pobre, aunque se ha superado notablemente aquella que obteníamos tomando acciones aleatorias, de en torno a 150 puntos.
 
 </div>
@@ -18088,9 +18092,9 @@ class="
 <br><br>
 
 Se observa en el caso de Dueling DQN una mejora notable en el comportamiento del agente respecto al que teníamos con DQN, ya que pasamos de estabilizarnos en recompensas medias de 200-250, a más de 300. En algún momento incluso se llega a rozar al límite de 350 propuesto para dar el entorno como resuelto, pero no se llega por poco. La gráfica muesta una mejora clara de la recompensa entre los episodios 400 y 600 aproximadamente. Podemos observar además que antes de el episodio 1000, en el que la epsilon ya ha llegado a su valor mínimio, observamos esta estabilización en la recompensa media, y a partir de ese momento se queda estabilizado en un rango de valores.
-
+<br><br>
 Por otro lado, la evolución de la pérdida es muy similar a la que observamos en el caso de DQN y la evolución de epsilon evidentemente la misma, ya que así lo hemos definido.
-
+<br><br>
 Si vamos al paper original en el que se propuso el Dueling DQN (<a href="https://arxiv.org/pdf/1511.06581.pdf">enlace</a>), vemos como conseguían en el juego Space Invaders una mejora de 164% sobre el DQN base, que es más que la que hemos experimentado aquí, pero sin tener en cuenta la selección de hiperparámetros de uno ni el otro, lo que puede modificar mucho los resultados finales. 
 
 </div>
@@ -18236,7 +18240,7 @@ class="
 
 
 Como se puede ver en la gráfica, a pesar de haber un mejor comportamiento en el entrenamiento, cuando jugamos partidas con el agente entrenado, el comportamiento es igual al agente DQN, obteniendo la misma recompensa. Por otro lado, tenemos una recompensa constante en todos los episodios, debido al mismo motivo que he mencionado en el DQN. Como el juego comienza siempre en el mismo estado, y al seguir una política determinista sin epsilon-greedy (modo explotación), el agente siempre va a hacer lo mismo, y por tanto, la recompensa será siempre la misma.
-
+<br><br>
 Como se puede ver en el GIF el comportamiento del agente es bastante pobre, igual que pasaba con el DQN.
 
 </div>
@@ -19065,7 +19069,7 @@ class="
 <br><br>
 
 En la ejecución de los 20 episodios vemos el mismo efecto que en los casos anteriores, donde en todos ellos observamos la misma recompensa final. Esto es nuevamente debido al mismo hecho, de que el estado inicial es siempre el mismo. Sin ambargo, al tratarse de un método Policy Gradients, puede llamar la atención más ya que la política que se aprende no es determinista. Sin embargo, tras tantos episodios de entrenamiento, la política que se ha aprendido, sin ser determinista, puede tener una probabilidad tan baja de elegir otra acción que no sea la de mayor probabilidad, que en la práctica sea casi como si lo fuese, y podemos intuir que sea lo que está pasando en este caso.
-
+<br><br>
 En cuanto al GIF, podemos ver que el comportamiento del agente es el más pobre de los tres, ya que ni siquiera se mueve, y se limita a disparar de forma continua.
 
 </div>
@@ -19173,11 +19177,11 @@ class="
 <strong>Solución (Comentarios):</strong>
 <br><br>
 Vemos claramente como con Dueling DQN hemos obtenido mejores resultados que con DQN sencillo, lo cual era de esperar. No solamente se estabiliza en un valor de recompensa sustancialmente mayor, sino que alcanza dicho valor bastante antes, requiriendo muchos menos episodios. Este resultado es el que cabría esperar, ya que el Dueling DQN supone una mejora sustancial sobre DQN, especialmente en velocidad de convergencia.
-
+<br><br>
 En el método de REINFORCE con Baseline, sin embargo, vemos que la convergencia al valor máximo es mucho más rápida en este caso, se produce de forma más constante, sin tantos picos, y se queda perfectamente estabilizada en un único valor, que con los parámetros utilizados es de 285 de recompensa. Esto es debido a que no utilizamos una política epsilon-greedy, por lo que una vez la red ha aprendido lo que ha podido, toma siempre las mismas decisiones sobre la acción a tomar dado el estado, por lo que acaba siempre en el mismo punto, igual a lo que ocurre cuando testeamos los métodos DQN o Dueling DQN en modo explotación (epsilon=0). Esto en todo caso ocurre porque el estado inicial en juegos de Atari es siempre el mismo al resetear el entorno. Además, este valor de convergencia es mejor que el DQN, pero peor que el Duelign DQN.
-
+<br><br>
 En cuanto a tiempos, el DQN y Dueling DQN toman un tiempo similar en entrenar con un número determinado de episodios, pero como dueling DQN es más rápido en converger, al final es éste el más interesante de utilizar desde este punto de vista, además de converger a un nivel de recompensa acumulada mejor. El método REINFORCE ha tardado aproximadamente el doble que los otros dos en entrenar el mismo número de episodios, siendo claramente el más lento de los tres.
-
+<br><br>
 Teniendo en cuenta todo ello, podemos concluir que de los tres modelos probados, el Dueling DQN es el que tiene mejor comportamiento teniendo en cuenta recompensa lograda y velocidad de convergencia.
 </div>
 </div>
@@ -19436,31 +19440,38 @@ class="
 
 Revisando diferente literatura disponible sobre resulución de entornos de juegos Atari, hay dos hiperparámetros que distan bastante entre el valor propuesto y el que habitualmente más se utiliza, que son los siguientes:
 
-* Capacidad del buffer, que habitualmente se establece en un valor mucho más alto que el que hemos establecido anteriormente de 8000, generalmente 1M de observaciones. Quizás esta cifra sea exagerada, pero por algún motivo en mi máquina moría el proceso y tenía que reinicial el kernel si el valor aumentaba por encima de los 16k, por lo que no he podido probar con valores más altos. No entiendo el motivo, pues un estado ocupa 4x84x84x2 bytes (guardado en float16, que es lo que he hecho para optimizar el espacio en memoria), que son 56kB, por lo que 16k estados ocuparían 0.9GB, que no debería ser un problema para mi máquina, y debería poder subir bastante por encima de esa cifra. En cualquier caso, aumentar este parámetros a 16k episodios no ha mejorado el rendimiento del modelo, por lo que he decidido dejarlo en 8000.
+<ul>
+  <li>Capacidad del buffer, que habitualmente se establece en un valor mucho más alto que el que hemos establecido anteriormente de 8000, generalmente 1M de observaciones. Quizás esta cifra sea exagerada, pero por algún motivo en mi máquina moría el proceso y tenía que reinicial el kernel si el valor aumentaba por encima de los 16k, por lo que no he podido probar con valores más altos. No entiendo el motivo, pues un estado ocupa 4x84x84x2 bytes (guardado en float16, que es lo que he hecho para optimizar el espacio en memoria), que son 56kB, por lo que 16k estados ocuparían 0.9GB, que no debería ser un problema para mi máquina, y debería poder subir bastante por encima de esa cifra. En cualquier caso, aumentar este parámetros a 16k episodios no ha mejorado el rendimiento del modelo, por lo que he decidido dejarlo en 8000.
+    </li>
+  <li>Actualización de la red neuronal, que habitalmente se hace con una frecuencia mayor a la establecida de cada 100 ciclos, generalmente cada 4 ciclos. He probado a seleccionar este valor a 4, 50 y 100, y no he percibido una mejora significativa en el rendimiento del modelo, por lo que he decidido dejarlo en los 100 iniciales, con los que el entrenamiento es algo más rápido.</li>
+</ul>
 
-* Actualización de la red neuronal, que habitalmente se hace con una frecuencia mayor a la establecida de cada 100 ciclos, generalmente cada 4 ciclos. He probado a seleccionar este valor a 4, 50 y 100, y no he percibido una mejora significativa en el rendimiento del modelo, por lo que he decidido dejarlo en los 100 iniciales, con los que el entrenamiento es algo más rápido.
 
 Además, he probado a modificar los siguientes parámetros:
 
-* Learning rate, que lo he puesto en valores más altos (0.01) y más bajos (0.00025 y 0.0001). Aumentando el valor a 0.01 el valor que he obtenido de recompensa media es más bajo. Con valores más bajos del parámetro, los valores de recompensa obtenidos han sido similares, pero el entrenamiento ha sido más lento. Por lo tanto he decidido dejarlo en el valor inicial de 0.001.
-* Gamma más bajo (0.97), con el que he conseguido un valor de recompensa media más bajo, por lo que lo he descartado.
-* Distinto tamaño de batch (16 y 64). Con ninguno de ellos he notado una diferencia apreciable en el rendimiento del modelo, por lo que he decidido dejarlo en el valor inicial de 32.
-* Sincronización de la red objetivo, que lo he puesto en valores más altos (50000) y más bajos (500) sin obtener diferencias significativas en el rendimiento del modelo, por lo que he decidido dejarlo en el valor inicial de 5000.
-* He reducido el número de neuronas en la capa oculta de la red a 256 desde las 512 iniciales, y repetido con esta configuración muchas de las pruebas anteriores, pero tampoco he notado una mejora significativa en el rendimiento del modelo.
+<ul>
+  <li>Learning rate, que lo he puesto en valores más altos (0.01) y más bajos (0.00025 y 0.0001). Aumentando el valor a 0.01 el valor que he obtenido de recompensa media es más bajo. Con valores más bajos del parámetro, los valores de recompensa obtenidos han sido similares, pero el entrenamiento ha sido más lento. Por lo tanto he decidido dejarlo en el valor inicial de 0.001.</li>
+  <li>Gamma más bajo (0.97), con el que he conseguido un valor de recompensa media más bajo, por lo que lo he descartado.</li>
+  <li>Distinto tamaño de batch (16 y 64). Con ninguno de ellos he notado una diferencia apreciable en el rendimiento del modelo, por lo que he decidido dejarlo en el valor inicial de 32.</li>
+  <li>Sincronización de la red objetivo, que lo he puesto en valores más altos (50000) y más bajos (500) sin obtener diferencias significativas en el rendimiento del modelo, por lo que he decidido dejarlo en el valor inicial de 5000.</li>
+  <li>He reducido el número de neuronas en la capa oculta de la red a 256 desde las 512 iniciales, y repetido con esta configuración muchas de las pruebas anteriores, pero tampoco he notado una mejora significativa en el rendimiento del modelo.</li>
+</ul>
 
 Cada una de las pruebas las he realizado con un entrenamiento de 2000 episodios, que tarda un tiempo de 2h aproximadamente con la GPU que tengo disponible, ya que hacerlo con 5000 episodios habría sido inviable. Tras no encontrar ninguna combinación de parámetros que mejore el rendimiento del modelo, he decidido probar con un entrenamiento de 10000 episodios, que tarda 7h aproximadamente, y ha sido con éste que he conseguido resolver el entorno, cuando quedaban pocos episodios para finalizar. Este es el caso que se muestra en las figuras de arriba.
-
+<br><br>
 La mejor combinación de parámetros que he encontrado, por lo tanto, ha sido la siguiente:
 
-* Número de episodios = 10000
-* Actualización de la red neuronal = 100
-* Capacidad de buffer = 8000
-* Learning rate = 0.001
-* Gamma = 0.99
-* Tamaño del batch = 32
+<ul>
+  <li>Número de episodios = 10000</li>
+  <li>Actualización de la red neuronal = 100</li>
+  <li>Capacidad de buffer = 8000</li>
+  <li>Learning rate = 0.001</li>
+  <li>Gamma = 0.99</li>
+  <li>Tamaño del batch = 32</li>
+</ul>
 
 En la siguiente figura se muestran los resultados de algunas de las pruebas realizadas con entrenamiento de 2000 episodios mostradas en TensorBoard para su monitorización. Como se puede ver, muchas de las pruebas realizadas muestran comportamientos muy similares, y en ningún caso se ha logrado mejorar de forma muy significativa los resultados obtenidos con los parámetros iniciales.
-<br><br>
+
 </div>
 </div>
 </div>
